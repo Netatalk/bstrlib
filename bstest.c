@@ -3115,15 +3115,15 @@ struct emuFile f;
 bstring b0, b1, b2, b3;
 int ret = 0;
 
-	printf ("TEST: bgets/breads test\n");
+	printf ("TEST: bgetstream/breads test\n");
 
 	test38_aux_bNopen (&f, &shortBstring);
 
 	/* Creation/reads */
 
-	b0 = bgets ((bNgetc) test38_aux_bNgetc, &f, (char) 'b');
+	b0 = bgetstream ((bNgetc) test38_aux_bNgetc, &f, (char) 'b');
 	b1 = bread ((bNread) test38_aux_bNread, &f);
-	b2 = bgets ((bNgetc) test38_aux_bNgetc, &f, (char) '\0');
+	b2 = bgetstream ((bNgetc) test38_aux_bNgetc, &f, (char) '\0');
 	b3 = bread ((bNread) test38_aux_bNread, &f);
 
 	ret += 1 != biseqcstr (b0, "b");
@@ -3135,14 +3135,14 @@ int ret = 0;
 
 	f.ofs = 0;
 
-	ret += 0 <= bgetsa (NULL, (bNgetc) test38_aux_bNgetc, &f, (char) 'o');
+	ret += 0 <= bgetstreama (NULL, (bNgetc) test38_aux_bNgetc, &f, (char) 'o');
 	ret += 0 <= breada (NULL, (bNread) test38_aux_bNread, &f);
-	ret += 0 <= bgetsa (&shortBstring, (bNgetc) test38_aux_bNgetc, &f, (char) 'o');
+	ret += 0 <= bgetstreama (&shortBstring, (bNgetc) test38_aux_bNgetc, &f, (char) 'o');
 	ret += 0 <= breada (&shortBstring, (bNread) test38_aux_bNread, &f);
 
 	/* Normal accumulations */
 
-	ret += 0 > bgetsa (b0, (bNgetc) test38_aux_bNgetc, &f, (char) 'o');
+	ret += 0 > bgetstreama (b0, (bNgetc) test38_aux_bNgetc, &f, (char) 'o');
 	ret += 0 > breada (b1, (bNread) test38_aux_bNread, &f);
 
 	ret += 1 != biseqcstr (b0, "bbo");
@@ -3150,7 +3150,7 @@ int ret = 0;
 
 	/* Attempt to append past end should do nothing */
 
-	ret += 0 > bgetsa (b0, (bNgetc) test38_aux_bNgetc, &f, (char) 'o');
+	ret += 0 > bgetstreama (b0, (bNgetc) test38_aux_bNgetc, &f, (char) 'o');
 	ret += 0 > breada (b1, (bNread) test38_aux_bNread, &f);
 
 	ret += 1 != biseqcstr (b0, "bbo");

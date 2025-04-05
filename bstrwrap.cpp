@@ -1179,7 +1179,7 @@ void CBString::repeat (int count) {
 
 int CBString::gets (bNgetc getcPtr, void * parm, char terminator) {
 	if (mlen <= 0) bstringThrow ("Write protection error");
-	bstring b = bgets (getcPtr, parm, terminator);
+	bstring b = bgetstream (getcPtr, parm, terminator);
 	if (b == NULL) {
 		slen = 0;
 		return -1;

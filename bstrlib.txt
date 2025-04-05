@@ -199,7 +199,7 @@ assured by the bstring library itself.
 bStreams
 --------
 
-In addition to the bgets and bread functions, bstrlib can abstract streams
+In addition to the bgetstream and bread functions, bstrlib can abstract streams
 with a high performance read only stream called a bStream.  In general, the
 idea is to open a core stream (with something like fopen) then pass its
 handle as well as a bNread function pointer (like fread) to the bsopen
@@ -209,21 +209,21 @@ Finally, the bsclose function is called to close the bStream -- it will
 return a handle to the original (core) stream.  So bStreams, essentially,
 wrap other streams.
 
-The bStreams have two main advantages over the bgets and bread (as well as
+The bStreams have two main advantages over the bgetstream and bread (as well as
 fgets/ungetc) paradigms:
 
 1) Improved functionality via the bunread function which allows a stream to
    unread characters, giving the bStream stack-like functionality if so
    desired.
 2) A very high performance bsreadln function.  The C library function fgets()
-   (and the bgets function) can typically be written as a loop on top of
+   (and the bgetstream function) can typically be written as a loop on top of
    fgetc(), thus paying all of the overhead costs of calling fgetc on a per
    character basis.  bsreadln will read blocks at a time, thus amortizing the
    overhead of fread calls over many characters at once.
 
 However, clearly bStreams are suboptimal or unusable for certain kinds of
 streams (stdin) or certain usage patterns (a few spotty, or non-sequential
-reads from a slow stream.)  For those situations, using bgets will be more
+reads from a slow stream.)  For those situations, using bgetstream will be more
 appropriate.
 
 The semantics of bStreams allows practical construction of layerable data
@@ -1612,7 +1612,7 @@ The functions
 
     ..........................................................................
 
-    extern bstring bgets (bNgetc getcPtr, void * parm, char terminator);
+    extern bstring bgetstream (bNgetc getcPtr, void * parm, char terminator);
     typedef int (* bNgetc) (void * parm);
 
     Read a bstring from a stream.  As many bytes as is necessary are read
@@ -1627,7 +1627,7 @@ The functions
     parameter of fgets.)  If no characters are read, or there is some other
     detectable error, NULL is returned.
 
-    bgets will never call the getcPtr function more often than necessary to
+    bgetstream will never call the getcPtr function more often than necessary to
     construct its output (including a single call, if required, to determine
     that the stream contains no more characters.)
 
@@ -1639,7 +1639,7 @@ The functions
     For files, this function can be used analogously as fgets as follows:
 
         fp = fopen ( ... );
-        if (fp) b = bgets ((bNgetc) fgetc, fp, '\n');
+        if (fp) b = bgetstream ((bNgetc) fgetc, fp, '\n');
 
     (Note that only one terminator character can be used, and that '\0' is
     not assumed to terminate the stream in addition to the terminator
@@ -1647,9 +1647,9 @@ The functions
 
     ..........................................................................
 
-    extern int bgetsa (bstring b, bNgetc getcPtr, void * parm, char terminator);
+    extern int bgetstreama (bstring b, bNgetc getcPtr, void * parm, char terminator);
 
-    Read from a stream and concatenate to a bstring.  Behaves like bgets,
+    Read from a stream and concatenate to a bstring.  Behaves like bgetstream,
     except that it appends it results to the bstring b.  The value 1 is
     returned if no characters are read before a negative result is returned
     from getcPtr.  Otherwise BSTR_ERR is returned on error, and 0 is returned
@@ -1659,7 +1659,7 @@ The functions
 
     extern int bassigngets (bstring b, bNgetc getcPtr, void * parm, char terminator);
 
-    Read from a stream and concatenate to a bstring.  Behaves like bgets,
+    Read from a stream and concatenate to a bstring.  Behaves like bgetstream,
     except that it assigns the results to the bstring b.  The value 1 is
     returned if no characters are read before a negative result is returned
     from getcPtr.  Otherwise BSTR_ERR is returned on error, and 0 is returned
@@ -1701,7 +1701,7 @@ The functions
     read, BSTR_ERR is returned.  This function may read additional characters
     into the stream buffer from the core stream that are not returned, but
     will be retained for subsequent read operations.  When reading from high
-    speed streams, this function can perform significantly faster than bgets.
+    speed streams, this function can perform significantly faster than bgetstream.
 
     ..........................................................................
 
@@ -1714,7 +1714,7 @@ The functions
     read, BSTR_ERR is returned.  This function may read additional characters
     into the stream buffer from the core stream that are not returned, but
     will be retained for subsequent read operations.  When reading from high
-    speed streams, this function can perform significantly faster than bgets.
+    speed streams, this function can perform significantly faster than bgetstream.
 
     ..........................................................................
 
@@ -2331,7 +2331,7 @@ functions and CBString methods that should be used instead of them.
 
 C-library         Bstring alternative             CBString alternative
 ---------         -------------------             --------------------
-gets              bgets                           ::gets
+gets              bgetstream                      ::gets
 strcpy            bassign                         = operator
 strncpy           bassignmidstr                   ::midstr
 strcat            bconcat                         += operator
@@ -2630,7 +2630,7 @@ effective mechanisms at ferreting out bugs.)
 Function pointers:
 ..................
 
-The bgets, bread and bStream functions use function pointers to obtain
+The bgetstream, bread and bStream functions use function pointers to obtain
 strings from data streams.  The function pointer declarations have been
 specifically chosen to be compatible with the fgetc and fread functions.
 While this may seem to be a convoluted way of implementing fgets and fread
