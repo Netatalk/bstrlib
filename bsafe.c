@@ -42,7 +42,7 @@ char * strcat (char *dst, const char *src) {
 #if !defined (__GNUC__) && (!defined(_MSC_VER) || (_MSC_VER <= 1310))
 char * (gets) (char * buf) {
 	(void) buf;
-	fprintf (stderr, "bsafe error: gets() is not safe, use bgets.\n");
+	fprintf (stderr, "bsafe error: gets() is not safe, use bgetstream.\n");
 	if (bsafeShouldExit) exit (-1);
 	return NULL;
 }
