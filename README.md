@@ -1,3 +1,12 @@
+# Netatalk bstrlib
+
+This is the Netatalk project's fork of bstrlib with local patches for portability and security.
+
+This repository is only used for reference and tracking of patches.
+A subset of bstrlib code is bundled with netatalk proper, and built as a static library that is then linked with libatalk.
+
+# Original readme
+
 The Better String Library
 
 The Better String Library is an abstraction of a string data type which is
