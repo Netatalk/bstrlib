@@ -1,9 +1,15 @@
 # Netatalk bstrlib
 
-This is the Netatalk project's fork of bstrlib with local patches for portability and security.
+In the release following 4.2, netatalk has transitioned to linking with 
+the shared [bstring library](https://github.com/msteinert/bstring),
+and hence removed the vendored version of the same.
 
-This repository is only used for reference and tracking of patches.
-A subset of bstrlib code is bundled with netatalk proper, and built as a static library that is then linked with libatalk.
+This repo remains for posterity.
+
+~~This is the Netatalk project's fork of bstrlib with local patches for portability and security.~~
+
+~~This repository is only used for reference and tracking of patches.
+A subset of bstrlib code is bundled with netatalk proper, and built as a static library that is then linked with libatalk.~~
 
 # Original readme
 
